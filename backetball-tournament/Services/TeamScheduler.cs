@@ -61,7 +61,7 @@ namespace backetball_tournament.Services
             return rounds;
         }
 
-        public void SimulateAndPrintMatches(Dictionary<int, List<Match>> rounds)
+        public void SimulateAndPrintMatches(Dictionary<int, List<Match>> rounds, List<TeamStanding> standings)
         {
             foreach (var round in rounds)
             {
@@ -69,11 +69,61 @@ namespace backetball_tournament.Services
                 foreach (var match in round.Value)
                 {
                     var (pointsA, pointsB) = _simulator.SimulateMatch(match.TeamA.FIBARanking, match.TeamB.FIBARanking);
+                    match.PointsA = pointsA;
+                    match.PointsB = pointsB;
+
+                    UpdateStandings(standings, match.TeamA.ISOCode, match.TeamB.ISOCode, pointsA, pointsB);
+
                     Console.WriteLine($"{match.TeamA.Team} vs {match.TeamB.Team} - {pointsA} - {pointsB}");
                 }
                 Console.WriteLine();
             }
+
+            PrintStandings(standings);
+        }
+
+        private void UpdateStandings(List<TeamStanding> standings, string isoCodeA, string isoCodeB, int pointsA, int pointsB)
+        {
+            var teamA = standings.FirstOrDefault(t => t.ISOCode == isoCodeA);
+            var teamB = standings.FirstOrDefault(t => t.ISOCode == isoCodeB);
+
+            if (pointsA > pointsB)
+            {
+                teamA.Points += 2;
+                teamA.Wins += 1;
+                teamB.Losses += 1;
+            }
+            else if (pointsB > pointsA)
+            {
+                teamB.Points += 2;
+                teamB.Wins += 1;
+                teamA.Losses += 1;
+            }
+            else
+            {
+                teamA.Points += 1;
+                teamB.Points += 1;
+            }
+
+            teamA.PointsScored += pointsA;
+            teamA.PointsAgainst += pointsB;
+            teamB.PointsScored += pointsB;
+            teamB.PointsAgainst += pointsA;
+        }
+
+        private void PrintStandings(List<TeamStanding> standings)
+        {
+            var sortedStandings = standings
+                .OrderByDescending(s => s.Points)
+                .ThenByDescending(s => s.Wins)
+                .ThenByDescending(s => s.PointsDifference)
+                .ToList();
+
+            Console.WriteLine("Rank  Team Name       Points  Wins  Losses  Scored  Against  Difference");
+            foreach (var standing in sortedStandings)
+            {
+                Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4} {standing.Losses,-6} {standing.PointsScored,-6} {standing.PointsAgainst,-7} {standing.PointsDifference,-10}");
+            }
         }
     }
-
 }

@@ -4,6 +4,7 @@
     {
         public TeamInfo TeamA { get; set; }
         public TeamInfo TeamB { get; set; }
-        public int Round { get; set; }
+        public int PointsA { get; set; }
+        public int PointsB { get; set; }
     }
 }
