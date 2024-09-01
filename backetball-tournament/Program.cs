@@ -1,7 +1,6 @@
 ﻿using backetball_tournament.Models;
 using backetball_tournament.Services;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 class Program
 {

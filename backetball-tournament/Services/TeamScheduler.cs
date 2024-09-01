@@ -132,10 +132,5 @@ namespace backetball_tournament.Services
                 Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4} {standing.Losses,-6} {standing.PointsScored,-6} {standing.PointsAgainst,-7} {standing.PointsDifference,-10}");
             }
         }
-
-        public List<Match> GetAllMatches()
-        {
-            return _allMatches;
-        }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using backetball_tournament.Models;
+﻿using backetball_tournament.Models;
 
 namespace backetball_tournament.Services
 {
@@ -55,11 +52,9 @@ namespace backetball_tournament.Services
         {
             var quarterFinals = new List<Match>();
 
-            // Generate the quarter-final matches
             quarterFinals.AddRange(GeneratePairings(pots["D"], pots["G"], groupStageMatches));
             quarterFinals.AddRange(GeneratePairings(pots["E"], pots["F"], groupStageMatches));
 
-            // Simulate and display results for each quarter-final match
             Console.WriteLine("\nČetvrtine Finala:");
             var quarterFinalResults = new List<TeamInfo>();
             foreach (var quarterFinal in quarterFinals)
@@ -71,7 +66,6 @@ namespace backetball_tournament.Services
 
                 Console.WriteLine($"{quarterFinal.TeamA.Team} vs {quarterFinal.TeamB.Team} - {pointsA} - {pointsB}");
 
-                // Store the winner for the next round
                 quarterFinalResults.Add(winner);
             }
 
@@ -100,7 +94,6 @@ namespace backetball_tournament.Services
 
                 if (opponent == null)
                 {
-                    // If no valid opponent is found, just select the first team from potB
                     opponent = shuffledPotB.First();
                 }
 
@@ -134,7 +127,6 @@ namespace backetball_tournament.Services
         {
             var semiFinalResults = new Dictionary<Match, (TeamInfo winner, TeamInfo loser)>();
 
-            // Simulate and display results for each semi-final match
             Console.WriteLine("\nPolufinala:");
             foreach (var semiFinal in semiFinals)
             {
@@ -148,14 +140,12 @@ namespace backetball_tournament.Services
                 Console.WriteLine($"{semiFinal.TeamA.Team} vs {semiFinal.TeamB.Team} - {pointsA} - {pointsB}");
             }
 
-            // Determine the teams for the final and third-place match
             var winners = semiFinalResults.Values.Select(result => result.winner).ToList();
             var losers = semiFinalResults.Values.Select(result => result.loser).ToList();
 
             var thirdPlaceMatch = new Match { TeamA = losers[0], TeamB = losers[1] };
             var finalMatch = new Match { TeamA = winners[0], TeamB = winners[1] };
 
-            // Simulate and display the final match
             Console.WriteLine("\nFinale:");
             var (finalPointsA, finalPointsB) = _matchSimulator.SimulateMatch(finalMatch.TeamA.FIBARanking, finalMatch.TeamB.FIBARanking);
             var finalWinner = finalPointsA > finalPointsB ? finalMatch.TeamA : finalMatch.TeamB;
@@ -163,7 +153,6 @@ namespace backetball_tournament.Services
 
             Console.WriteLine($"{finalMatch.TeamA.Team} vs {finalMatch.TeamB.Team} - {finalPointsA} - {finalPointsB}");
 
-            // Simulate and display the third-place match
             Console.WriteLine("\nTreće mesto:");
             var (thirdPlacePointsA, thirdPlacePointsB) = _matchSimulator.SimulateMatch(thirdPlaceMatch.TeamA.FIBARanking, thirdPlaceMatch.TeamB.FIBARanking);
             var thirdPlaceWinner = thirdPlacePointsA > thirdPlacePointsB ? thirdPlaceMatch.TeamA : thirdPlaceMatch.TeamB;
