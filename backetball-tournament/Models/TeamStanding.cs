@@ -2,6 +2,7 @@
 {
     public class TeamStanding
     {
+        public TeamInfo TeamInfo { get; set; }
         public string ISOCode { get; set; }
         public string TeamName { get; set; }
         public int Points { get; set; }
@@ -11,5 +12,6 @@
         public int PointsAgainst { get; set; }
         public int PointsDifference => PointsScored - PointsAgainst;
         public int Rank { get; set; }
+
     }
 }

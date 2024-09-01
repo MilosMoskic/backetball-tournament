@@ -15,9 +15,11 @@ namespace backetball_tournament.Services
             for (int i = 0; i < 3; i++)
             {
                 var rankedSubgroup = topTeams.Select(group => group.ElementAt(i))
-                                             .OrderByDescending(t => t.Points)
-                                             .ThenByDescending(t => t.PointsDifference)
-                                             .ThenByDescending(t => t.PointsScored).ToList();
+                                                                   .OrderByDescending(t => t.Points)
+                                                                   .ThenByDescending(t => t.PointsScored - t.PointsAgainst)
+                                                                   .ThenByDescending(t => t.PointsScored)
+                                                                   .Take(8)
+                                                                   .ToList();
 
                 rankedTeams.AddRange(rankedSubgroup);
             }
@@ -32,6 +34,20 @@ namespace backetball_tournament.Services
             {
                 Console.WriteLine($"Rank {team.Rank}: {team.TeamName} - {team.Points} points, {team.PointsDifference} point difference, {team.PointsScored} points scored");
             }
+        }
+
+        public List<TeamStanding> GetTop8Teams(List<List<TeamStanding>> groupStandings)
+        {
+            var allTeams = groupStandings.SelectMany(g => g).ToList();
+
+            var top8Teams = allTeams
+                .OrderByDescending(t => t.Points)
+                .ThenByDescending(t => t.PointsDifference)
+                .ThenByDescending(t => t.PointsScored)
+                .Take(8)
+                .ToList();
+
+            return top8Teams;
         }
     }
 }

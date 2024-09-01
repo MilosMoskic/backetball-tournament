@@ -6,5 +6,6 @@
         public TeamInfo TeamB { get; set; }
         public int PointsA { get; set; }
         public int PointsB { get; set; }
+
     }
 }

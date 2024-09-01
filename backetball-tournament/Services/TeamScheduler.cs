@@ -5,6 +5,7 @@ namespace backetball_tournament.Services
     public class TournamentScheduler
     {
         private readonly MatchSimulator _simulator;
+        private List<Match> _allMatches = new List<Match>();
 
         public TournamentScheduler(MatchSimulator simulator)
         {
@@ -61,8 +62,13 @@ namespace backetball_tournament.Services
             return rounds;
         }
 
-        public void SimulateAndPrintMatches(Dictionary<int, List<Match>> rounds, List<TeamStanding> standings)
+        public void SimulateAndPrintMatches(List<Match> matches, List<TeamStanding> standings)
         {
+            var rounds = new Dictionary<int, List<Match>>
+            {
+                { 1, matches } // All matches in a single round for simplicity
+            };
+
             foreach (var round in rounds)
             {
                 Console.WriteLine($"Kolo {round.Key}:");
@@ -81,6 +87,7 @@ namespace backetball_tournament.Services
 
             PrintStandings(standings);
         }
+
 
         private void UpdateStandings(List<TeamStanding> standings, string isoCodeA, string isoCodeB, int pointsA, int pointsB)
         {
@@ -124,6 +131,11 @@ namespace backetball_tournament.Services
             {
                 Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4} {standing.Losses,-6} {standing.PointsScored,-6} {standing.PointsAgainst,-7} {standing.PointsDifference,-10}");
             }
+        }
+
+        public List<Match> GetAllMatches()
+        {
+            return _allMatches;
         }
     }
 }
