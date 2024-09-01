@@ -5,14 +5,26 @@ namespace backetball_tournament.Services
     public class TournamentScheduler
     {
         private readonly MatchSimulator _simulator;
-        private List<Match> _allMatches = new List<Match>();
 
         public TournamentScheduler(MatchSimulator simulator)
         {
             _simulator = simulator;
         }
 
-        public Dictionary<int, List<Match>> GenerateMatchesAndRounds(List<TeamInfo> teams)
+        public List<Match> SimulateAndPrintGroupMatches(List<TeamInfo> teams, TournamentScheduler scheduler, string groupName, List<TeamStanding> standings)
+        {
+            Console.WriteLine($"\n=============== Grupa {groupName} ===============");
+
+            var rounds = scheduler.GenerateMatchesAndRounds(teams);
+
+            var allMatches = rounds.SelectMany(r => r.Value).ToList();
+
+            scheduler.SimulateAndPrintMatches(allMatches, standings);
+
+            return allMatches;
+        }
+
+        private Dictionary<int, List<Match>> GenerateMatchesAndRounds(List<TeamInfo> teams)
         {
             var matches = GenerateMatches(teams);
             return OrganizeMatchesIntoRounds(matches, teams.Count);
@@ -62,7 +74,7 @@ namespace backetball_tournament.Services
             return rounds;
         }
 
-        public void SimulateAndPrintMatches(List<Match> matches, List<TeamStanding> standings)
+        private void SimulateAndPrintMatches(List<Match> matches, List<TeamStanding> standings)
         {
             var rounds = new Dictionary<int, List<Match>>
             {

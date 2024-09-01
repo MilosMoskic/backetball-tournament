@@ -4,7 +4,7 @@ namespace backetball_tournament.Services
 {
     public class TeamRankingSystem
     {
-        public void RankTeamsAcrossGroups(List<List<TeamStanding>> groupStandings)
+        public List<TeamStanding> RankTeamsAcrossGroups(List<List<TeamStanding>> groupStandings)
         {
             var topTeams = groupStandings.Select(g => g.OrderByDescending(t => t.Points)
                                                        .ThenByDescending(t => t.PointsDifference)
@@ -32,8 +32,10 @@ namespace backetball_tournament.Services
             Console.WriteLine("\nRangiranje nakon grupa:");
             foreach (var team in rankedTeams)
             {
-                Console.WriteLine($"Rank {team.Rank}: {team.TeamName} - {team.Points} poena, {team.PointsDifference} poen razlika, {team.PointsScored} primljeni poeni");
+                Console.WriteLine($"Rank {team.Rank}: {team.TeamName} - {team.Points} bodova, {team.PointsDifference} poen razlika, {team.PointsScored} primljeni poeni");
             }
+
+            return rankedTeams;
         }
     }
 }
