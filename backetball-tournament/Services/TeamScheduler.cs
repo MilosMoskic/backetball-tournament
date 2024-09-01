@@ -66,7 +66,7 @@ namespace backetball_tournament.Services
         {
             var rounds = new Dictionary<int, List<Match>>
             {
-                { 1, matches } // All matches in a single round for simplicity
+                { 1, matches }
             };
 
             foreach (var round in rounds)
@@ -126,7 +126,7 @@ namespace backetball_tournament.Services
                 .ThenByDescending(s => s.PointsDifference)
                 .ToList();
 
-            Console.WriteLine("Rank  Team Name       Points  Wins  Losses  Scored  Against  Difference");
+            Console.WriteLine("Rank  Naziv Tima       Poeni  Pobede  Gubitci  Osvojeni  Primljeni  Razlika");
             foreach (var standing in sortedStandings)
             {
                 Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4} {standing.Losses,-6} {standing.PointsScored,-6} {standing.PointsAgainst,-7} {standing.PointsDifference,-10}");

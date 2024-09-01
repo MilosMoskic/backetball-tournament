@@ -29,25 +29,11 @@ namespace backetball_tournament.Services
                 rankedTeams[i].Rank = i + 1;
             }
 
-            Console.WriteLine("\nFinal Rankings:");
+            Console.WriteLine("\nRangiranje nakon grupa:");
             foreach (var team in rankedTeams)
             {
-                Console.WriteLine($"Rank {team.Rank}: {team.TeamName} - {team.Points} points, {team.PointsDifference} point difference, {team.PointsScored} points scored");
+                Console.WriteLine($"Rank {team.Rank}: {team.TeamName} - {team.Points} poena, {team.PointsDifference} poen razlika, {team.PointsScored} primljeni poeni");
             }
-        }
-
-        public List<TeamStanding> GetTop8Teams(List<List<TeamStanding>> groupStandings)
-        {
-            var allTeams = groupStandings.SelectMany(g => g).ToList();
-
-            var top8Teams = allTeams
-                .OrderByDescending(t => t.Points)
-                .ThenByDescending(t => t.PointsDifference)
-                .ThenByDescending(t => t.PointsScored)
-                .Take(8)
-                .ToList();
-
-            return top8Teams;
         }
     }
 }
