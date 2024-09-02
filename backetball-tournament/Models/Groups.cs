@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace backetball_tournament.Models
+﻿namespace backetball_tournament.Models
 {
     public class Groups
     {

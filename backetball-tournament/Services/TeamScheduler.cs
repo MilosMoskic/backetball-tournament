@@ -83,7 +83,6 @@ namespace backetball_tournament.Services
 
             foreach (var round in rounds)
             {
-                Console.WriteLine($"Kolo {round.Key}:");
                 foreach (var match in round.Value)
                 {
                     var (pointsA, pointsB) = _simulator.SimulateMatch(match.TeamA.FIBARanking, match.TeamB.FIBARanking);
@@ -99,7 +98,6 @@ namespace backetball_tournament.Services
 
             PrintStandings(standings);
         }
-
 
         private void UpdateStandings(List<TeamStanding> standings, string isoCodeA, string isoCodeB, int pointsA, int pointsB)
         {
@@ -117,11 +115,6 @@ namespace backetball_tournament.Services
                 teamB.Points += 2;
                 teamB.Wins += 1;
                 teamA.Losses += 1;
-            }
-            else
-            {
-                teamA.Points += 1;
-                teamB.Points += 1;
             }
 
             teamA.PointsScored += pointsA;
@@ -141,7 +134,7 @@ namespace backetball_tournament.Services
             Console.WriteLine("Rank  Naziv Tima       Poeni  Pobede  Gubitci  Osvojeni  Primljeni  Razlika");
             foreach (var standing in sortedStandings)
             {
-                Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4} {standing.Losses,-6} {standing.PointsScored,-6} {standing.PointsAgainst,-7} {standing.PointsDifference,-10}");
+                Console.WriteLine($"{sortedStandings.IndexOf(standing) + 1,-5} {standing.TeamName,-20} {standing.Points,-6} {standing.Wins,-4}      {standing.Losses,-6} {standing.PointsScored,-6}   {standing.PointsAgainst,-7}  {standing.PointsDifference,-10}");
             }
         }
     }

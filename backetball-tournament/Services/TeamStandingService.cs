@@ -11,7 +11,12 @@ namespace backetball_tournament.Services
                 ISOCode = t.ISOCode,
                 TeamName = t.Team,
                 TeamInfo = t,
-                Points = 0
+                Points = 0,
+                Wins = 0,
+                Losses = 0,
+                PointsScored = 0,
+                PointsAgainst = 0,
+                Rank = 0
             }).ToList();
         }
     }
